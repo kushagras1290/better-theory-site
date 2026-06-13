@@ -1,0 +1,33 @@
+{
+  "name": "better-theory-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "deploy": "npx wrangler pages deploy out --project-name=better-theory-site --branch=main"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.6.1",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.17.0",
+    "next": "^16.2.9",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.184.1",
+    "eslint": "^9",
+    "eslint-config-next": "^16.2.9",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "^8.5.15"
+  }
+}
