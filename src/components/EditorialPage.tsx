@@ -45,10 +45,7 @@ export function EditorialPage({
             <Reveal className="text-panel" delay={index * 0.08} key={item}>
               <p className="kicker">Principle</p>
               <h3>{item}</h3>
-              <p>
-                Every page is designed to be visually rich, directly navigable, and deployable as
-                a static asset without relying on hidden runtime state.
-              </p>
+              <p>Glass surface. Branch logic. Fast route change.</p>
             </Reveal>
           ))}
         </div>

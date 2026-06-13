@@ -53,6 +53,14 @@ a {
   text-decoration: none;
 }
 
+@media (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -155,6 +163,146 @@ a {
   color: var(--fg);
 }
 
+.tree-traversal {
+  position: fixed;
+  right: clamp(14px, 2.4vw, 34px);
+  top: 112px;
+  z-index: 45;
+  width: 230px;
+  min-height: 500px;
+  pointer-events: none;
+}
+
+.tree-traversal__label {
+  margin: 0 0 12px auto;
+  width: max-content;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(3, 3, 3, 0.56);
+  color: var(--cyan);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+}
+
+.tree-traversal__svg {
+  position: absolute;
+  top: 36px;
+  right: 24px;
+  width: 180px;
+  height: 440px;
+  overflow: visible;
+  opacity: 0.88;
+  filter: drop-shadow(0 0 12px rgba(0, 245, 212, 0.18));
+}
+
+.tree-traversal__trunk,
+.tree-traversal__branch,
+.tree-traversal__twig {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.tree-traversal__trunk {
+  stroke: rgba(217, 237, 146, 0.64);
+  stroke-width: 3;
+}
+
+.tree-traversal__branch {
+  stroke: rgba(0, 245, 212, 0.52);
+  stroke-width: 1.5;
+}
+
+.tree-traversal__twig {
+  stroke: rgba(255, 77, 109, 0.5);
+  stroke-width: 1;
+}
+
+.tree-traversal__nodes {
+  position: absolute;
+  inset: 42px 0 auto auto;
+  display: grid;
+  gap: 10px;
+  width: 170px;
+}
+
+.tree-traversal__node,
+.tree-traversal__subnode {
+  pointer-events: auto;
+  border: 1px solid rgba(248, 247, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(3, 3, 3, 0.48);
+  backdrop-filter: blur(14px);
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.tree-traversal__node {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  padding: 8px;
+  opacity: 0.62;
+  transform: translateX(var(--node-offset));
+}
+
+.tree-traversal__node span {
+  color: rgba(248, 247, 255, 0.48);
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.tree-traversal__node strong {
+  color: rgba(248, 247, 255, 0.78);
+  font-size: 0.72rem;
+  line-height: 1.1;
+}
+
+.tree-traversal__node:hover,
+.tree-traversal__node[data-active="true"] {
+  border-color: rgba(0, 245, 212, 0.7);
+  background: rgba(0, 245, 212, 0.12);
+  opacity: 1;
+  transform: translateX(-24px);
+}
+
+.tree-traversal__node[data-active="true"] strong {
+  color: var(--fg);
+}
+
+.tree-traversal__subnodes {
+  position: absolute;
+  top: 126px;
+  right: 176px;
+  display: grid;
+  gap: 6px;
+  width: 148px;
+}
+
+.tree-traversal__subnode {
+  padding: 7px 9px;
+  color: rgba(248, 247, 255, 0.58);
+  font-size: 0.66rem;
+  opacity: 0.46;
+  transform: translateX(var(--subnode-offset));
+}
+
+.tree-traversal__subnode:hover,
+.tree-traversal__subnode[data-active="true"] {
+  border-color: rgba(255, 77, 109, 0.74);
+  background: rgba(255, 77, 109, 0.13);
+  color: var(--fg);
+  opacity: 1;
+  transform: translateX(-18px);
+}
+
 .page {
   position: relative;
   z-index: 2;
@@ -230,8 +378,9 @@ h3 {
 .contact-panel {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--panel);
-  backdrop-filter: blur(18px);
+  background: rgba(248, 247, 255, 0.055);
+  backdrop-filter: blur(24px) saturate(1.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .hero-panel {
@@ -458,6 +607,10 @@ h3 {
 
   .nav-links {
     max-width: 72vw;
+  }
+
+  .tree-traversal {
+    display: none;
   }
 
   .hero-grid,

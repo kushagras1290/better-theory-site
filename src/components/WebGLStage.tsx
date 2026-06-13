@@ -1,8 +1,11 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
+import { usePathname } from "next/navigation";
 import { useMemo, useRef, useSyncExternalStore } from "react";
 import * as THREE from "three";
+import { getTraversalIndex, traversalNodes } from "@/data/pages";
+import { projects } from "@/data/projects";
 
 function useReducedMotion() {
   return useSyncExternalStore(
@@ -120,52 +123,230 @@ function ParticleField({ reduced }: { reduced: boolean }) {
   );
 }
 
-function FloatingCore({ reduced }: { reduced: boolean }) {
+function makeCurve(points: Array<[number, number, number]>) {
+  return new THREE.CatmullRomCurve3(points.map((point) => new THREE.Vector3(...point)));
+}
+
+const trunkCurve = makeCurve([
+  [0, -3.2, -0.2],
+  [-0.18, -2.1, 0.06],
+  [0.2, -0.8, -0.05],
+  [-0.08, 0.8, 0.08],
+  [0.14, 2.45, -0.12],
+]);
+
+const primaryBranchPoints: Array<Array<[number, number, number]>> = [
+  [
+    [-0.04, -1.35, 0],
+    [-1.1, -0.82, 0.12],
+    [-2.15, -0.35, -0.08],
+    [-3.35, 0.08, -0.16],
+  ],
+  [
+    [0.06, -0.78, 0.02],
+    [1.2, -0.35, -0.08],
+    [2.2, 0.2, 0.12],
+    [3.3, 0.72, -0.08],
+  ],
+  [
+    [-0.02, 0.05, 0.02],
+    [-1.26, 0.52, -0.12],
+    [-2.5, 1.18, 0.02],
+    [-3.1, 1.9, 0.18],
+  ],
+  [
+    [0.08, 0.55, -0.02],
+    [1.15, 0.98, 0.16],
+    [2.16, 1.58, -0.04],
+    [3.0, 2.34, 0.08],
+  ],
+  [
+    [0.05, 1.25, 0],
+    [-0.78, 1.74, 0.12],
+    [-1.36, 2.28, -0.08],
+    [-1.85, 2.9, 0],
+  ],
+  [
+    [0.12, 1.65, 0.02],
+    [0.88, 2.0, -0.12],
+    [1.6, 2.55, 0.08],
+    [2.3, 3.15, -0.02],
+  ],
+];
+
+const subBranchPoints: Array<Array<[number, number, number]>> = [
+  [
+    [-2.15, -0.35, -0.08],
+    [-2.68, -0.58, 0.16],
+    [-3.08, -0.88, 0.22],
+  ],
+  [
+    [-2.15, -0.35, -0.08],
+    [-2.75, -0.1, -0.16],
+    [-3.28, -0.14, -0.3],
+  ],
+  [
+    [-2.5, 1.18, 0.02],
+    [-2.88, 1.42, 0.22],
+    [-3.38, 1.56, 0.34],
+  ],
+  [
+    [-2.5, 1.18, 0.02],
+    [-2.88, 1.05, -0.16],
+    [-3.32, 1.12, -0.34],
+  ],
+  [
+    [2.16, 1.58, -0.04],
+    [2.78, 1.72, 0.2],
+    [3.4, 1.98, 0.32],
+  ],
+  [
+    [2.16, 1.58, -0.04],
+    [2.62, 1.34, -0.18],
+    [3.16, 1.18, -0.36],
+  ],
+];
+
+function TreeTube({
+  curve,
+  radius,
+  color,
+  opacity = 1,
+}: {
+  curve: THREE.CatmullRomCurve3;
+  radius: number;
+  color: string;
+  opacity?: number;
+}) {
+  return (
+    <mesh>
+      <tubeGeometry args={[curve, 72, radius, 8, false]} />
+      <meshStandardMaterial
+        color={color}
+        emissive={color}
+        emissiveIntensity={0.22}
+        roughness={0.46}
+        metalness={0.36}
+        transparent
+        opacity={opacity}
+      />
+    </mesh>
+  );
+}
+
+function RouteTree({ reduced, activeIndex }: { reduced: boolean; activeIndex: number }) {
   const group = useRef<THREE.Group>(null);
+  const glow = useRef<THREE.Group>(null);
+  const branchCurves = useMemo(() => primaryBranchPoints.map(makeCurve), []);
+  const subCurves = useMemo(() => subBranchPoints.map(makeCurve), []);
+  const active = useRef(activeIndex);
 
   useFrame(({ clock, pointer }) => {
-    if (reduced || !group.current) return;
-    group.current.rotation.x = clock.elapsedTime * 0.14 + pointer.y * 0.1;
-    group.current.rotation.y = clock.elapsedTime * 0.18 + pointer.x * 0.16;
+    active.current += (activeIndex - active.current) * 0.06;
+    if (!group.current) return;
+    if (!reduced) {
+      group.current.rotation.x = pointer.y * 0.055;
+      group.current.rotation.y = -0.42 + pointer.x * 0.12 + active.current * 0.035;
+      group.current.position.y = -0.18 - active.current * 0.025;
+    }
+    if (glow.current) {
+      const pulse = reduced ? 1 : 1 + Math.sin(clock.elapsedTime * 3) * 0.12;
+      glow.current.scale.setScalar(pulse);
+    }
   });
 
+  const projectNodes = projects.slice(0, 6);
+  const routeNodePositions: Array<[number, number, number]> = [
+    [0, -2.8, 0],
+    [-3.35, 0.08, -0.16],
+    [3.3, 0.72, -0.08],
+    [-3.1, 1.9, 0.18],
+    [3.0, 2.34, 0.08],
+    [-1.85, 2.9, 0],
+    [2.3, 3.15, -0.02],
+    [-0.85, 3.5, 0.12],
+    [0.95, 3.55, -0.08],
+  ];
+
   return (
-    <group ref={group} position={[1.9, -0.2, -1.25]}>
-      <mesh>
-        <icosahedronGeometry args={[1.1, 2]} />
-        <meshStandardMaterial
-          color="#00f5d4"
-          emissive="#003d37"
-          roughness={0.18}
-          metalness={0.72}
-          wireframe
+    <group ref={group} position={[1.5, -0.34, -1.7]} rotation={[0, -0.42, 0]} scale={0.86}>
+      <TreeTube curve={trunkCurve} radius={0.065} color="#d9ed92" opacity={0.95} />
+      {branchCurves.map((curve, index) => (
+        <TreeTube
+          color={index === activeIndex - 1 ? "#00f5d4" : "#8ef6e4"}
+          curve={curve}
+          key={`branch-${index}`}
+          opacity={index === activeIndex - 1 ? 1 : 0.58}
+          radius={0.033}
         />
-      </mesh>
-      <mesh scale={1.34}>
-        <torusKnotGeometry args={[0.72, 0.015, 180, 12]} />
-        <meshStandardMaterial color="#ff4d6d" emissive="#4f0015" />
-      </mesh>
+      ))}
+      {subCurves.map((curve, index) => (
+        <TreeTube
+          color="#ff4d6d"
+          curve={curve}
+          key={`sub-${index}`}
+          opacity={0.52}
+          radius={0.015}
+        />
+      ))}
+      {routeNodePositions.map((position, index) => {
+        const isActive = index === activeIndex;
+        return (
+          <group key={traversalNodes[index]?.href ?? index} position={position}>
+            <mesh>
+              <sphereGeometry args={[isActive ? 0.13 : 0.07, 18, 18]} />
+              <meshStandardMaterial
+                color={isActive ? "#ffffff" : "#00f5d4"}
+                emissive={isActive ? "#00f5d4" : "#00483f"}
+                emissiveIntensity={isActive ? 1.8 : 0.65}
+                roughness={0.18}
+              />
+            </mesh>
+            {isActive && (
+              <group ref={glow}>
+                <mesh>
+                  <sphereGeometry args={[0.27, 18, 18]} />
+                  <meshBasicMaterial color="#00f5d4" transparent opacity={0.18} />
+                </mesh>
+              </group>
+            )}
+          </group>
+        );
+      })}
+      {projectNodes.map((project, index) => {
+        const curve = subCurves[index];
+        const point = curve.getPoint(1);
+        return (
+          <mesh key={project.slug} position={point}>
+            <octahedronGeometry args={[0.06, 0]} />
+            <meshStandardMaterial color="#ff4d6d" emissive="#4f0015" emissiveIntensity={1.1} />
+          </mesh>
+        );
+      })}
     </group>
   );
 }
 
 export function WebGLStage() {
   const reduced = useReducedMotion();
+  const pathname = usePathname();
+  const activeIndex = getTraversalIndex(pathname);
 
   return (
     <div className="webgl-stage" aria-hidden="true">
       <Canvas
-        camera={{ position: [0, 0, 5.6], fov: 45 }}
+        camera={{ position: [0, 0.2, 6.3], fov: 42 }}
         dpr={[1, 1.6]}
         frameloop={reduced ? "demand" : "always"}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       >
-        <ambientLight intensity={0.9} />
-        <pointLight position={[3, 2, 4]} intensity={3.2} color="#00f5d4" />
-        <pointLight position={[-3, -2, 2]} intensity={2.6} color="#ff4d6d" />
+        <ambientLight intensity={0.62} />
+        <pointLight position={[3, 2, 4]} intensity={4.2} color="#00f5d4" />
+        <pointLight position={[-3, -2, 2]} intensity={2.7} color="#ff4d6d" />
+        <pointLight position={[0, 4, 1]} intensity={1.8} color="#d9ed92" />
         <ShaderPlane reduced={reduced} />
         <ParticleField reduced={reduced} />
-        <FloatingCore reduced={reduced} />
+        <RouteTree activeIndex={activeIndex} reduced={reduced} />
       </Canvas>
     </div>
   );

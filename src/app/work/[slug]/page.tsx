@@ -70,7 +70,7 @@ export default async function ProjectDetail({ params }: Props) {
             <Reveal className="text-panel" delay={index * 0.08} key={chapter}>
               <p className="kicker">Chapter {String(index + 1).padStart(2, "0")}</p>
               <h3>{chapter}</h3>
-              <p>{project.summary}</p>
+              <p>{project.tagline}</p>
             </Reveal>
           ))}
         </div>

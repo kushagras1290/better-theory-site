@@ -7,9 +7,9 @@ export function MetricStrip() {
   return (
     <div className="stat-grid">
       {[
-        ["15+", "public pages and generated project routes"],
-        ["WebGL", "persistent shader and particle stage"],
-        ["Motion", "Framer-powered reveal and navigation rhythm"],
+        ["21", "nodes"],
+        ["WebGL", "tree"],
+        ["Motion", "travel"],
       ].map(([value, label]) => (
         <Reveal className="metric-card" key={value}>
           <strong>{value}</strong>
@@ -35,9 +35,9 @@ export function Marquee() {
 
 export function CapabilityBand() {
   const items = [
-    ["WebGL direction", "Shader-backed atmospheres, reactive particles, and spatial scenes that support content instead of hiding it."],
-    ["Motion systems", "Framer Motion choreography, page rhythm, hover intent, and reduced-motion fallbacks."],
-    ["Production delivery", "Static export, semantic routes, documented deployment, and Cloudflare Pages compatibility."],
+    ["Tree stage", "A large route-aware WebGL organism."],
+    ["Branch travel", "Primary pages and subpages mapped as limbs."],
+    ["Sheer UI", "Glass controls, tiny labels, less copy."],
   ];
 
   return (
@@ -60,8 +60,8 @@ export function FeaturedWork() {
     <section className="band">
       <div className="section work-header">
         <div>
-          <p className="kicker">Selected work</p>
-          <h2>Ten fictional case studies with real interaction depth.</h2>
+          <p className="kicker">Branches</p>
+          <h2>Case-study limbs.</h2>
         </div>
         <Link className="button" href="/work">
           View all work
@@ -85,7 +85,7 @@ export function FeaturedWork() {
                 <span>{project.category}</span>
               </div>
               <h3>{project.title}</h3>
-              <p>{project.summary}</p>
+              <p>{project.tagline}</p>
             </Link>
           </Reveal>
         ))}

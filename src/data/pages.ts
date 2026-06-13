@@ -10,54 +10,65 @@ export const navItems = [
   { href: "/contact", label: "Contact" },
 ];
 
+export const traversalNodes = [
+  { href: "/", label: "Root", side: "center", depth: 0 },
+  { href: "/work", label: "Work canopy", side: "left", depth: 1 },
+  { href: "/studio", label: "Studio limb", side: "right", depth: 2 },
+  { href: "/labs", label: "Lab graft", side: "left", depth: 3 },
+  { href: "/capabilities", label: "Capability rings", side: "right", depth: 4 },
+  { href: "/process", label: "Process cambium", side: "left", depth: 5 },
+  { href: "/awards", label: "Proof fruit", side: "right", depth: 6 },
+  { href: "/manifesto", label: "Manifesto crown", side: "left", depth: 7 },
+  { href: "/contact", label: "Contact seed", side: "right", depth: 8 },
+] as const;
+
+export function getTraversalIndex(pathname: string) {
+  if (pathname.startsWith("/work/")) return 1;
+  const index = traversalNodes.findIndex((node) => node.href === pathname);
+  return index >= 0 ? index : 0;
+}
+
 export const pageCopy = {
   studio: {
     kicker: "Studio",
-    title: "A compact senior team for difficult internet objects.",
-    body:
-      "We combine art direction, product strategy, realtime engineering, and production discipline. The result is not just spectacle. It is a faster route from impossible brief to stable shipped system.",
+    title: "Studio limb.",
+    body: "A small build room for immersive systems.",
     stats: ["18 makers", "5 disciplines", "1 integrated build room"],
   },
   labs: {
     kicker: "Labs",
-    title: "Prototypes that become production language.",
-    body:
-      "Labs is where shader studies, AI behaviors, browser performance tests, and spatial interface patterns are pressure-tested before they become client work.",
+    title: "Lab grafts.",
+    body: "Shaders, motion tests, and interface mutations.",
     stats: ["64 experiments", "12 shipped patterns", "0 throwaway demos"],
   },
   capabilities: {
     kicker: "Capabilities",
-    title: "Strategy, motion, WebGL, AI, systems, and deployment in one loop.",
-    body:
-      "The site is built around the same capabilities it sells: cinematic frontend craft, technical storytelling, data-led interaction, robust routing, and deployment-ready engineering.",
+    title: "Capabilities ring.",
+    body: "WebGL, motion, AI, systems, deploy.",
     stats: ["WebGL", "Framer Motion", "Cloudflare"],
   },
   process: {
     kicker: "Process",
-    title: "Less ceremony. More working interface.",
-    body:
-      "We run tight discovery, build visual prototypes early, validate performance continuously, and leave teams with documented systems instead of one-off campaign debris.",
+    title: "Process cambium.",
+    body: "Frame it. Prototype it. Ship it.",
     stats: ["01 Frame", "02 Prototype", "03 Ship"],
   },
   awards: {
     kicker: "Proof",
-    title: "Awards are a side effect. Measurable behavior is the target.",
-    body:
-      "The work is designed to win attention, but it is judged by adoption, recall, conversion, retention, accessibility, and operational maintainability.",
+    title: "Proof fruit.",
+    body: "Attention is measured by behavior.",
     stats: ["126 fictional wins", "99 UX score target", "AA baseline"],
   },
   manifesto: {
     kicker: "Manifesto",
-    title: "The better website is alive, legible, fast, and useful.",
-    body:
-      "Beauty without navigation is a screensaver. Motion without meaning is delay. We build interfaces that feel rare while still giving users control, context, and a clear next move.",
+    title: "Manifesto crown.",
+    body: "Alive, legible, fast, useful.",
     stats: ["No dead pages", "No generic cursor", "No passive portfolio"],
   },
   contact: {
     kicker: "Contact",
-    title: "Bring the impossible brief. Leave with a production path.",
-    body:
-      "For launches, cultural platforms, spatial commerce, realtime data stories, and AI-led experiences. The first response should include the problem, deadline, and what must not break.",
+    title: "Contact seed.",
+    body: "Bring the impossible brief.",
     stats: ["hello@better-theory.local", "Global remote", "48h response"],
   },
 } as const;

@@ -9,12 +9,10 @@ export default function Home() {
         <div className="section hero-grid">
           <div>
             <Reveal>
-              <p className="kicker">Better than a work page</p>
-              <h1>Interactive websites that behave like living systems.</h1>
+              <p className="kicker">Branch traversal</p>
+              <h1>Enter the living tree.</h1>
               <p className="lead">
-                A sharper, deeper, more navigable alternative to the cinematic agency portfolio:
-                WebGL in the background, a real cursor trail, fast content routes, and project
-                pages that explain the work instead of hiding it behind spectacle.
+                A sleek WebGL route organism. Trunk, branches, subbranches.
               </p>
               <div className="cta-row">
                 <Link className="button primary" href="/work">
@@ -28,13 +26,9 @@ export default function Home() {
             <MetricStrip />
           </div>
           <Reveal className="hero-panel" delay={0.18}>
-            <p className="kicker">Reference understood</p>
-            <h3>Then rebuilt with more surface area.</h3>
-            <p>
-              The original reference leans on a custom canvas stage, shader scenes, mouse-fluid
-              interactions, bloom, and project routing. This site keeps that cinematic ambition
-              while adding stronger navigation, richer pages, and deployable production structure.
-            </p>
+            <p className="kicker">Structure</p>
+            <h3>Trunk. Branch. Subbranch.</h3>
+            <p>Less text. More traversal.</p>
           </Reveal>
         </div>
       </section>

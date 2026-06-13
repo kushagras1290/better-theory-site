@@ -15,10 +15,9 @@ export default function WorkPage() {
         <div className="section">
           <Reveal>
             <p className="kicker">Work</p>
-            <h1>Ten worlds. One fast interface.</h1>
+            <h1>Work branches.</h1>
             <p className="lead">
-              Each case study has its own static route, visual language, services, metrics, and
-              narrative chapters. This is the portfolio index, not the whole experience.
+              Subbranches off the main tree. Pick a limb.
             </p>
           </Reveal>
         </div>

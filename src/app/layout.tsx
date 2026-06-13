@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navigation } from "@/components/Navigation";
 import { CursorTrail } from "@/components/CursorTrail";
 import { WebGLStage } from "@/components/WebGLStage";
+import { TreeTraversal } from "@/components/TreeTraversal";
 
 export const metadata: Metadata = {
   title: {
@@ -24,6 +25,7 @@ export default function RootLayout({
         <WebGLStage />
         <CursorTrail />
         <Navigation />
+        <TreeTraversal />
         {children}
       </body>
     </html>
