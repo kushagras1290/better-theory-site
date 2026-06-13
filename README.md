@@ -2,6 +2,12 @@
 
 An immersive creative-technology portfolio built to outperform the reference interaction model of `activetheory.net/work`: persistent WebGL, custom cursor trail, kinetic motion, deep project routing, and Cloudflare-ready static export.
 
+## Live Links
+
+- Production: https://better-theory-site.pages.dev
+- Deployment preview: https://afbca9c4.better-theory-site.pages.dev
+- Repository: https://github.com/kushagras1290/better-theory-site
+
 ## Stack
 
 - Next.js App Router with static export
