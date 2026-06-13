@@ -1,11 +1,11 @@
 # Better Theory Site
 
-An immersive creative-technology portfolio built to outperform the reference interaction model of `activetheory.net/work`: persistent WebGL, custom cursor trail, kinetic motion, deep project routing, and Cloudflare-ready static export.
+An immersive creative-technology portfolio built around a route-aware WebGL tree: persistent branch traversal, custom cursor trail, kinetic motion, deep project routing, and Cloudflare-ready static export.
 
 ## Live Links
 
 - Production: https://better-theory-site.pages.dev
-- Deployment preview: https://afbca9c4.better-theory-site.pages.dev
+- Latest deployment preview: https://4008ac90.better-theory-site.pages.dev
 - Repository: https://github.com/kushagras1290/better-theory-site
 
 ## Stack
