@@ -33,6 +33,36 @@ export function Marquee() {
   );
 }
 
+export function TreeScroll() {
+  const layers = [
+    ["01", "Roots", "Origin paths."],
+    ["02", "Trunk", "Primary route spine."],
+    ["03", "Branches", "Studio, labs, process."],
+    ["04", "Subbranches", "Work case paths."],
+    ["05", "Canopy", "The whole system."],
+  ];
+
+  return (
+    <section className="tree-scroll" aria-label="Tree scroll traversal">
+      <div className="section tree-scroll__stage">
+        <div>
+          <p className="kicker">Scroll traversal</p>
+          <h2>Go deeper into the tree.</h2>
+        </div>
+        <div className="tree-scroll__steps">
+          {layers.map(([number, title, body]) => (
+            <Reveal className="tree-step" key={title}>
+              <span>{number}</span>
+              <strong>{title}</strong>
+              <p>{body}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function CapabilityBand() {
   const items = [
     ["Tree stage", "A large route-aware WebGL organism."],

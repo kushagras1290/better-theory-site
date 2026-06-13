@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CapabilityBand, FeaturedWork, Marquee, MetricStrip } from "@/components/PageBlocks";
+import { FeaturedWork, MetricStrip, TreeScroll } from "@/components/PageBlocks";
 import { Reveal } from "@/components/Reveal";
 
 export default function Home() {
@@ -32,9 +32,8 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
-      <Marquee />
+      <TreeScroll />
       <FeaturedWork />
-      <CapabilityBand />
     </main>
   );
 }
